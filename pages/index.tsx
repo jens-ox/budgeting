@@ -1,65 +1,142 @@
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import { useState } from 'react'
+import currency from 'currency.js'
+
+const showAmount = (cents: number): string =>
+  currency(cents, { fromCents: true }).toString()
+
+export interface Entry {
+  name: string
+  amount: number
+  category: Category
+}
+
+export enum Category {
+  FOOD = 'Lebensmittel',
+  CLOTING = 'Bekleidung und Schuhe',
+  HOME = 'Wohnen und Energie',
+  APPLIANCES = 'Innenausstattung und Haushaltsgeräte',
+  HEALTH = 'Gesundheit',
+  MOBILITY = 'Verkehr',
+  MOBILE = 'Post und Telekommunikation',
+  CULTURE = 'Freizeit, Unterhaltung, Kultur',
+  EDUCATION = 'Bildungswesen',
+  HOTEL = 'Beherberung und Gaststätten',
+  OTHER = 'Andere Waren und Dienstleistungen'
+}
 
 export default function Home() {
+  const [entries, setEntries] = useState<Array<Entry>>([])
+
+  const addEntry = () => {
+    setEntries([
+      ...entries,
+      {
+        amount,
+        name,
+        category
+      }
+    ])
+
+    // re-set
+    setAmount(0)
+    setName('')
+    setCategory(Category.OTHER)
+  }
+
+  const removeEntry = (i: number) => {
+    const newEntries = entries.filter((_, index) => index !== i)
+    setEntries(newEntries)
+  }
+
+  // new entry
+  const [amount, setAmount] = useState<number>(0)
+  const [name, setName] = useState('')
+  const [category, setCategory] = useState(Category.OTHER)
+
   return (
-    <div className={styles.container}>
+    <div className="container mx-auto pt-8">
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+      <header className="mb-6">
+        <h1>Budget</h1>
+        <span className="text-gray-600 italic text-sm">
+          Einnahmen und Ausgaben für einen Zeitraum deiner Wahl eintragen und
+          Auswertung speichern.
+        </span>
+      </header>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+      <main>
+        <table>
+          <thead>
+            <tr>
+              <th>Betrag</th>
+              <th>Name</th>
+              <th>Kategorie</th>
+              <th className="text-right"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {entries.map((entry, i) => (
+              <tr key={`entry-${i}`}>
+                <td>{showAmount(entry.amount)}</td>
+                <td>{entry.name}</td>
+                <td>{entry.category}</td>
+                <td>
+                  <button onClick={() => removeEntry(i)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+            <tr>
+              <td>
+                <input
+                  type="number"
+                  value={amount}
+                  onChange={(e) => setAmount(parseInt(e.target.value || '0'))}
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </td>
+              <td>
+                <div className="relative">
+                  <select
+                    name="category"
+                    id="category"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value as Category)}
+                  >
+                    {Object.values(Category).map((c) => (
+                      <option key={`category-${c}`} value={c}>
+                        {c}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg
+                      className="fill-current h-4 w-4"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                    </svg>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <button onClick={addEntry}>Add</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
     </div>
   )
 }

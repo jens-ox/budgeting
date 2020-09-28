@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+table {
+  td,th {
+    @apply px-2 py-1;
+  }
+  td {
+    @apply border-b border-r border-gray-300;
+    &:first-child {
+      @apply border-l;
+    }
+  }
+  th {
+    @apply uppercase text-sm;
+  }
+  thead {
+    tr {
+      @apply bg-gray-300 border border-gray-300 text-left;
+    }
+  }
+  tbody {
+    @apply bg-white;
+  }
+}
+
+button,.button {
+  @apply bg-gray-300 px-3 py-1 rounded font-semibold
+}
+
+h1 {
+  @apply text-4xl font-semibold
+}
+
+input[type=number] {
+  appearance: textfield;
+}
+
+select {
+  @apply block appearance-none bg-gray-200 border border-gray-200 py-1 px-2 pr-8 rounded leading-tight;
+}

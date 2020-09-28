@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "currency.js": "^2.0.3",
     "next": "9.5.3",
     "react": "16.13.1",
     "react-datasheet": "^1.4.8",
@@ -25,6 +26,8 @@
     "eslint-plugin-react": "^7.21.2",
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.1.2",
+    "sass": "^1.26.11",
+    "stylelint-config-recommended": "^3.0.0",
     "tailwindcss": "^1.8.10",
     "typescript": "^4.0.3"
   }
