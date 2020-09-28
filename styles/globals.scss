@@ -4,6 +4,8 @@
 
 
 table {
+  @apply table-auto;
+
   td,th {
     @apply px-2 py-1;
   }
@@ -40,4 +42,9 @@ input[type=number] {
 
 select {
   @apply block appearance-none bg-gray-200 border border-gray-200 py-1 px-2 pr-8 rounded leading-tight;
+  width: 20rem;
+}
+
+h3 {
+  @apply text-xl font-semibold mb-2 mt-8;
 }
