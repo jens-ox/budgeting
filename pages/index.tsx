@@ -31,7 +31,7 @@ export default function Home() {
 
       <header className="mb-6">
         <h1>Budget</h1>
-        <span className="text-gray-600 italic text-sm">
+        <span className="text-gray-600 italic text-sm print:hidden">
           Einnahmen und Ausgaben für einen Zeitraum deiner Wahl eintragen und
           Auswertung speichern.
         </span>
