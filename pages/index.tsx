@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import currency from 'currency.js'
 
 const showAmount = (cents: number): string =>
@@ -28,6 +28,8 @@ export enum Category {
 export default function Home() {
   const [entries, setEntries] = useState<Array<Entry>>([])
 
+  const inputRef = useRef(null)
+
   const addEntry = () => {
     setEntries([
       ...entries,
@@ -42,6 +44,9 @@ export default function Home() {
     setAmount(0)
     setName('')
     setCategory(Category.OTHER)
+
+    // re-focus
+    inputRef.current.focus()
   }
 
   const removeEntry = (i: number) => {
@@ -53,6 +58,11 @@ export default function Home() {
   const [amount, setAmount] = useState<number>(0)
   const [name, setName] = useState('')
   const [category, setCategory] = useState(Category.OTHER)
+
+  const handleEnter = (e) => {
+    if (e.key !== 'Enter') return
+    addEntry()
+  }
 
   return (
     <div className="container mx-auto pt-8">
@@ -90,12 +100,14 @@ export default function Home() {
                 </td>
               </tr>
             ))}
-            <tr>
+            <tr onKeyUp={handleEnter}>
               <td>
                 <input
                   type="number"
                   value={amount}
+                  ref={inputRef}
                   onChange={(e) => setAmount(parseInt(e.target.value || '0'))}
+                  onFocus={(e) => e.target.select()}
                 />
               </td>
               <td>
@@ -131,7 +143,9 @@ export default function Home() {
                 </div>
               </td>
               <td>
-                <button onClick={addEntry}>Add</button>
+                <button onClick={addEntry} type="button">
+                  Add
+                </button>
               </td>
             </tr>
           </tbody>
