@@ -1,34 +1,36 @@
 import { useRef, useState } from 'react'
 import currency from 'currency.js'
+import Entry from '../types/Entry'
+import { Plus, Minus } from 'react-feather'
 
 const showAmount = (cents: number): string =>
   currency(cents, { fromCents: true }).toString()
 
-export interface Entry {
-  name: string
-  amount: number
-  category: string
-}
-
 export interface ITable {
+  entries?: Array<Entry>
   categories: Record<string, string>
   defaultCategory: string
+  onChange: (entries: Array<Entry>) => void
 }
 
-export default function Table({ categories, defaultCategory }: ITable) {
-  const [entries, setEntries] = useState<Array<Entry>>([])
-
+export default function Table({
+  entries = [],
+  categories,
+  defaultCategory,
+  onChange
+}: ITable): JSX.Element {
   const inputRef = useRef(null)
 
   const addEntry = () => {
-    setEntries([
+    const newEntries = [
       ...entries,
       {
         amount,
         name,
         category
       }
-    ])
+    ]
+    onChange(newEntries)
 
     // re-set
     setAmount(0)
@@ -41,7 +43,7 @@ export default function Table({ categories, defaultCategory }: ITable) {
 
   const removeEntry = (i: number) => {
     const newEntries = entries.filter((_, index) => index !== i)
-    setEntries(newEntries)
+    onChange(newEntries)
   }
 
   // new entry
@@ -71,7 +73,9 @@ export default function Table({ categories, defaultCategory }: ITable) {
             <td>{entry.name}</td>
             <td>{entry.category}</td>
             <td>
-              <button onClick={() => removeEntry(i)}>Delete</button>
+              <button onClick={() => removeEntry(i)}>
+                <Minus />
+              </button>
             </td>
           </tr>
         ))}
@@ -119,7 +123,7 @@ export default function Table({ categories, defaultCategory }: ITable) {
           </td>
           <td>
             <button onClick={addEntry} type="button">
-              Add
+              <Plus />
             </button>
           </td>
         </tr>

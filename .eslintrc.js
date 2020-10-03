@@ -36,7 +36,10 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
     // needed for NextJS's jsx without react import
-    'react/react-in-jsx-scope': 'off'
+    'react/react-in-jsx-scope': 'off',
+
+    // this is always JSX.Element anyway
+    '@typescript-eslint/explicit-module-boundary-types': 'off'
   },
   globals: { React: 'writable' }
 }

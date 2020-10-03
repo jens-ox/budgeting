@@ -1,5 +1,9 @@
 import Head from 'next/head'
+import { useState } from 'react'
 import Table from '../components/Table'
+import useStashed from '../hooks/useStashed'
+import Budget from '../types/Budget'
+import Entry from '../types/Entry'
 
 export enum SpendingCategory {
   FOOD = 'Lebensmittel',
@@ -21,7 +25,37 @@ export enum IncomeCategory {
   MEANS = 'Vermögenseinnahmen'
 }
 
+const initialState: Budget = {
+  in: [],
+  out: []
+}
+
 export default function Home() {
+  const [stashed, setStashed] = useStashed(initialState)
+  const [budget, setBudget] = useState<Budget>(initialState)
+
+  const loadStashed = () => {
+    console.log('loading stashed', stashed)
+    setBudget(stashed)
+  }
+
+  const updateStashed = () => {
+    console.log('updating stashed', budget)
+    setStashed(budget)
+  }
+
+  // update handlers
+  const updateIn = (newIn: Array<Entry>) =>
+    setBudget({
+      in: newIn,
+      out: budget.out
+    })
+  const updateOut = (newOut: Array<Entry>) =>
+    setBudget({
+      in: budget.in,
+      out: newOut
+    })
+
   return (
     <div className="container mx-auto pt-8">
       <Head>
@@ -32,22 +66,30 @@ export default function Home() {
       <header className="mb-6">
         <h1>Budget</h1>
         <span className="text-gray-600 italic text-sm print:hidden">
-          Einnahmen und Ausgaben für einen Zeitraum deiner Wahl eintragen und
-          Auswertung speichern.
+          Add income and expenses for a time frame of your choice and get some
+          statistics about it.
         </span>
       </header>
 
       <main>
-        <h3>Einnahmen</h3>
+        <h3>Income</h3>
         <Table
           categories={IncomeCategory}
           defaultCategory={IncomeCategory.WORK}
+          entries={budget.in}
+          onChange={updateIn}
         ></Table>
-        <h3>Ausgaben</h3>
+        <h3>Spending</h3>
         <Table
           categories={SpendingCategory}
           defaultCategory={SpendingCategory.OTHER}
+          entries={budget.out}
+          onChange={updateOut}
         ></Table>
+        <button onClick={loadStashed} className="mr-2">
+          Load local
+        </button>
+        <button onClick={updateStashed}>Save local</button>
       </main>
     </div>
   )
