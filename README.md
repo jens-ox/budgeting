@@ -1,4 +1,17 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a simple Next.js app to create an overview PDF of your budget.
+
+1. Enter income and expenditures
+2. Store them locally if you need to work on them later
+3. Generate a nice PDF
+
+## Roadmap
+
+This is in development. Next features:
+
+* re-set `localStorage`, e.g. to get started with next month
+* leverage print media queries for PDF stuff
+* use `visx` to make some nice visualizations
+* translate categories to english
 
 ## Getting Started
 
