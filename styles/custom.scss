@@ -36,9 +36,9 @@ table {
 }
 
 button,.button {
-  @apply px-3 py-1 text-sm rounded border border-gray-300 shadow font-medium;
+  @apply px-3 py-1 text-sm rounded border border-gray-300 shadow;
   &:hover {
-    @apply bg-gray-100;
+    background-color: rgba(0,0,0,.05);
   }
   &.table-icon {
     @apply rounded-none shadow-none border-none
@@ -57,10 +57,6 @@ button,.button {
   @apply text-xs px-2
 }
 
-h1 {
-  @apply text-4xl font-semibold
-}
-
 input[type=number] {
   appearance: textfield;
 }
@@ -75,7 +71,7 @@ select {
 }
 
 h3 {
-  @apply text-xl font-semibold mb-2 mt-8;
+  @apply text-xl mb-2 mt-8;
 }
 
 .row-entry {
@@ -89,9 +85,9 @@ h3 {
 }
 
 nav {
-  @apply w-full p-4 flex items-center;
+  @apply w-full p-4 flex items-center bg-gray-100;
   .title {
-    @apply text-lg text-indigo-500 font-semibold
+    @apply text-lg text-indigo-500 font-bold
   }
   .actions {
     button,.button {
@@ -106,13 +102,13 @@ nav {
 .tab-list {
   @apply flex;
   .tab-list-item {
-    @apply text-sm px-2 py-1 border border-l-0 border-gray-300 cursor-pointer font-medium;
+    @apply text-sm px-2 py-1 border border-l-0 border-gray-300 cursor-pointer;
     &:first-child {
       @apply border-l
     }
   }
   .tab-list-active {
-    @apply border-b-0 font-bold
+    @apply border-b-0
   }
   .filler {
     @apply flex-grow border-b border-gray-300
@@ -120,5 +116,26 @@ nav {
 }
 
 .tab-content {
-  @apply border border-t-0 border-gray-300 p-4 rounded rounded-tl-none shadow relative z-10
+  @apply border border-t-0 border-gray-300 p-4 rounded rounded-tl-none shadow relative z-10;
+}
+
+.backdrop {
+  @apply fixed left-0 top-0 w-full h-full z-10;
+  background: rgba(0,0,0,0.5);
+}
+
+.modal {
+  @apply z-20 absolute bg-white rounded;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  .title {
+    @apply px-4 py-2 text-xl border-b border-gray-300;
+  }
+  .content {
+    @apply p-4
+  }
+  .actions {
+    @apply text-xs px-4 py-2 bg-gray-100 flex justify-between;
+  }
 }

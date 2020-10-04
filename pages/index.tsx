@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import Table from '../components/Table'
 import useStashed from '../hooks/useStashed'
 import Budget from '../types/Budget'
@@ -36,6 +36,7 @@ const initialState: Budget = {
 const initialHash = JSON.stringify(initialState)
 
 export default function Home() {
+  const [modalVisible, setModalVisible] = useState(false)
   const [budget, setBudget] = useStashed(initialState)
   const { addToast } = useToasts()
 
@@ -73,14 +74,17 @@ export default function Home() {
           <div className="title">Budget</div>
           <div className="actions">
             {budgetHash !== initialHash && (
-              <button className="button-red" onClick={reset}>
+              <button
+                className="button-red"
+                onClick={() => setModalVisible(true)}
+              >
                 Reset
               </button>
             )}
           </div>
         </div>
       </nav>
-      <main className="container mx-auto">
+      <main className="container mx-auto pt-8">
         <Tabs>
           <TabContainer label="Income">
             <Table
@@ -99,7 +103,30 @@ export default function Home() {
             ></Table>
           </TabContainer>
         </Tabs>
+        <div className="analytics">
+          <h3>Analytics</h3>
+        </div>
       </main>
+      {modalVisible && (
+        <>
+          <div
+            className="backdrop"
+            onClick={() => setModalVisible(false)}
+          ></div>
+          <div className="modal">
+            <div className="title">Reset</div>
+            <div className="content">
+              Are you sure that you want to reset your budget?
+            </div>
+            <div className="actions">
+              <button onClick={() => setModalVisible(false)}>Cancel</button>
+              <button className="button-red" onClick={reset}>
+                Yes
+              </button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }
