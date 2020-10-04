@@ -4,6 +4,16 @@ This is a simple Next.js app to create an overview PDF of your budget.
 2. Store them locally if you need to work on them later
 3. Generate a nice PDF
 
+## Usage
+
+Enter some income and expenditures. I generate one report for each salary period.
+
+![Screenshot entering expenditures](.github/insert.png)
+
+View some basic analytics. Output is optimized to be printed.
+
+![Screenshot of basic analytics](.github/analytics.png)
+
 ## Roadmap
 
 This is in development. Next features:
