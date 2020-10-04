@@ -6,10 +6,12 @@ import Entry from '../types/Entry'
 import { useToasts } from 'react-toast-notifications'
 import Tabs from '../components/Tabs'
 import TabContainer from '../components/TabContainer'
+import { X } from 'react-feather'
 import Donut from '../components/Donut'
 import IncomeCategory from '../types/IncomeCategory'
 import SpendingCategory from '../types/SpendingCategory'
 import CumulatedEntry from '../types/CumulatedEntry'
+import useFirstStart from '../hooks/useFirstStart'
 
 const initialState: Budget = {
   in: [],
@@ -55,7 +57,12 @@ const cumulateExpenses = (budget: Budget): Array<CumulatedEntry> => {
 
 export default function Home() {
   const [modalVisible, setModalVisible] = useState(false)
-  const [budget, setBudget] = useStashed(initialState)
+  const [budget, setBudget] = process.browser
+    ? useStashed(initialState)
+    : [initialState, () => null]
+  const [firstStart, setFirstStart] = process.browser
+    ? useFirstStart()
+    : [true, () => null]
   const { addToast } = useToasts()
 
   // yes, this is efficient enough, one day this can be upgraded to MurmurHash3 or sth
@@ -99,6 +106,24 @@ export default function Home() {
         </div>
       </nav>
       <main className="container mx-auto py-8">
+        {firstStart && (
+          <div className="note print:hidden">
+            <div className="title">Notes on usage</div>
+            <div className="content">
+              I developed this app for my personal finance tracking, so you
+              might miss some features. Feel free to open an issue on GitHub.
+              <br />
+              No information leaves your browser, all data is stored in{' '}
+              <code>localStorage</code>.
+            </div>
+            <button
+              className="secondary close"
+              onClick={() => setFirstStart(false)}
+            >
+              <X />
+            </button>
+          </div>
+        )}
         <Tabs>
           <TabContainer label="Income">
             <Table
