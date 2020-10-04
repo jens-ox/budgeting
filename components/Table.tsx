@@ -22,7 +22,7 @@ export default function Table({
   const inputRef = useRef(null)
 
   // new entry
-  const [amount, setAmount] = useState<number>()
+  const [amount, setAmount] = useState<number | null>(null)
   const [name, setName] = useState('')
   const [category, setCategory] = useState(defaultCategory)
 
@@ -41,7 +41,7 @@ export default function Table({
     onChange(newEntries)
 
     // re-set
-    setAmount(undefined)
+    setAmount(null)
     setName('')
     setCategory(defaultCategory)
 
@@ -98,11 +98,11 @@ export default function Table({
           <td>
             <input
               type="number"
-              value={amount}
+              value={amount || ''}
               placeholder="cents"
               ref={inputRef}
               onChange={(e) =>
-                setAmount(e.target.value ? parseInt(e.target.value) : undefined)
+                setAmount(e.target.value ? parseInt(e.target.value) : null)
               }
               onKeyUp={handleEnter}
               onFocus={(e) => e.target.select()}

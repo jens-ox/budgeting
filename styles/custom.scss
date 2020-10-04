@@ -36,13 +36,25 @@ table {
 }
 
 button,.button {
-  @apply px-3 py-1 rounded text-sm border border-gray-300 shadow font-medium;
+  @apply px-3 py-1 text-sm rounded border border-gray-300 shadow font-medium;
   &:hover {
     @apply bg-gray-100;
   }
   &.table-icon {
     @apply rounded-none shadow-none border-none
   }
+  &.disabled {
+    @apply bg-gray-200 shadow-none cursor-default
+  }
+  &.button-green {
+    @apply border-green-500;
+  }
+  &.button-red {
+    @apply border-red-500;
+  }
+}
+.button-small {
+  @apply text-xs px-2
 }
 
 h1 {
@@ -74,4 +86,19 @@ h3 {
 
 .row-add {
   @apply bg-gray-100
+}
+
+nav {
+  @apply w-full p-4 flex items-center;
+  .title {
+    @apply text-lg text-indigo-500 font-semibold
+  }
+  .actions {
+    button,.button {
+      @apply button-small mr-2;
+      &:last-child {
+        @apply mr-0
+      }
+    }
+  }
 }
