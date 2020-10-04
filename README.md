@@ -8,7 +8,7 @@ This is a simple Next.js app to create an overview PDF of your budget.
 
 This is in development. Next features:
 
-* re-set `localStorage`, e.g. to get started with next month
+* :heavy_check_mark: re-set `localStorage`, e.g. to get started with next month
 * leverage print media queries for PDF stuff
 * use `visx` to make some nice visualizations
 * translate categories to english
