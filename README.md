@@ -9,9 +9,10 @@ This is a simple Next.js app to create an overview PDF of your budget.
 This is in development. Next features:
 
 * :heavy_check_mark: re-set `localStorage`, e.g. to get started with next month
-* leverage print media queries for PDF stuff
-* use `visx` to make some nice visualizations
-* translate categories to english
+* :heavy_check_mark: leverage print media queries for PDF stuff
+* :heavy_check_mark: use ~~`visx`~~ `d3` to make some nice visualizations
+* :heavy_check_mark: translate categories to english
+* compare spendings to recommended split from [Statista](https://de.statista.com/statistik/daten/studie/164774/umfrage/konsumausgaben-private-haushalte/)
 
 ## Getting Started
 
