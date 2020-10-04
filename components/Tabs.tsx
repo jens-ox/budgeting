@@ -19,7 +19,7 @@ const Tabs = ({ children }) => {
             />
           )
         })}
-        <li className="filler"></li>
+        <li className="filler" />
       </ol>
       <div className="tab-content">
         {children.map((child) => {
