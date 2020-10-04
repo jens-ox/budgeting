@@ -75,7 +75,7 @@ export default function Table({
           <th>Amount</th>
           <th>Name</th>
           <th>Category</th>
-          <th className="print:hidden w-0"></th>
+          <th className="print:hidden"></th>
         </tr>
       </thead>
       <tbody>

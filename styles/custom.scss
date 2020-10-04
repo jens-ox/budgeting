@@ -102,3 +102,20 @@ nav {
     }
   }
 }
+
+.tab-list {
+  @apply flex;
+  .tab-list-item {
+    @apply text-sm px-2 py-1 border border-gray-300 cursor-pointer font-medium
+  }
+  .tab-list-active {
+    @apply border-b-0 font-bold
+  }
+  .filler {
+    @apply flex-grow border-b border-gray-300
+  }
+}
+
+.tab-content {
+  @apply border border-t-0 border-gray-300 p-4
+}

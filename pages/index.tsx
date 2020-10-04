@@ -5,6 +5,8 @@ import useStashed from '../hooks/useStashed'
 import Budget from '../types/Budget'
 import Entry from '../types/Entry'
 import { useToasts } from 'react-toast-notifications'
+import Tabs from '../components/Tabs'
+import TabContainer from '../components/TabContainer'
 
 export enum SpendingCategory {
   FOOD = 'Lebensmittel',
@@ -78,24 +80,26 @@ export default function Home() {
           </div>
         </div>
       </nav>
-      <div className="container mx-auto">
-        <main>
-          <h3>Income</h3>
-          <Table
-            categories={IncomeCategory}
-            defaultCategory={IncomeCategory.WORK}
-            entries={budget.in}
-            onChange={updateIn}
-          ></Table>
-          <h3>Spending</h3>
-          <Table
-            categories={SpendingCategory}
-            defaultCategory={SpendingCategory.OTHER}
-            entries={budget.out}
-            onChange={updateOut}
-          ></Table>
-        </main>
-      </div>
+      <main className="container mx-auto">
+        <Tabs>
+          <TabContainer label="Income">
+            <Table
+              categories={IncomeCategory}
+              defaultCategory={IncomeCategory.WORK}
+              entries={budget.in}
+              onChange={updateIn}
+            ></Table>
+          </TabContainer>
+          <TabContainer label="Spending">
+            <Table
+              categories={SpendingCategory}
+              defaultCategory={SpendingCategory.OTHER}
+              entries={budget.out}
+              onChange={updateOut}
+            ></Table>
+          </TabContainer>
+        </Tabs>
+      </main>
     </div>
   )
 }
