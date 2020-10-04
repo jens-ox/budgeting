@@ -1,7 +1,7 @@
 export enum IncomeCategory {
-  WORK = 'Nichtselbstständige Arbeit',
-  CONTRACT = 'Selbstständige Arbeit',
-  MEANS = 'Vermögenseinnahmen'
+  WORK = 'Employment',
+  CONTRACT = 'Self-Employment',
+  MEANS = 'Revenue and property income'
 }
 
 export default IncomeCategory

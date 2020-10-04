@@ -1,16 +1,16 @@
 enum SpendingCategory {
-  FOOD = 'Lebensmittel',
-  CLOTING = 'Bekleidung und Schuhe',
-  HOME = 'Wohnen und Energie',
-  APPLIANCES = 'Innenausstattung und Haushaltsgeräte',
-  HEALTH = 'Gesundheit',
-  MOBILITY = 'Verkehr',
-  MOBILE = 'Post und Telekommunikation',
-  CULTURE = 'Freizeit, Unterhaltung, Kultur',
-  EDUCATION = 'Bildungswesen',
-  HOTEL = 'Beherberung und Gaststätten',
-  OTHER = 'Andere Waren und Dienstleistungen',
-  SAVINGS = 'Gespart'
+  FOOD = 'Groceries',
+  CLOTING = 'Clothing and Shoes',
+  HOME = 'Housing and Energy',
+  APPLIANCES = 'Interior and Applicances',
+  HEALTH = 'Health',
+  MOBILITY = 'Transportation',
+  MOBILE = 'Telecommunication and Postal',
+  CULTURE = 'Leisure, Entertainment, Culture',
+  EDUCATION = 'Education',
+  HOTEL = 'Lodging',
+  OTHER = 'Other goods and services',
+  SAVINGS = 'Savings'
 }
 
 export default SpendingCategory
