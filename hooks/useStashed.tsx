@@ -1,5 +1,6 @@
 import createPersistedState from 'use-persisted-state'
-const useStashedState = createPersistedState<any>('budget')
+import Budget from '../types/Budget'
+const useStashedState = createPersistedState<Budget>('budget')
 
 const useStashed = (initialState) => useStashedState(initialState)
 

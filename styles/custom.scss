@@ -3,8 +3,19 @@ body {
   @apply leading-normal text-gray-800;
 }
 
+.table-inline {
+  tbody {
+    @apply border border-gray-300
+  }
+  tr:nth-child(2n) {
+    @apply bg-gray-200
+  }
+  td {
+    @apply px-1
+  }
+}
 
-table {
+.table {
   @apply my-4 text-sm table-auto;
 
   td {

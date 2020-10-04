@@ -9,6 +9,10 @@
   },
   "dependencies": {
     "currency.js": "^2.0.3",
+    "d3-interpolate": "^2.0.1",
+    "d3-scale": "^3.2.3",
+    "d3-scale-chromatic": "^2.0.0",
+    "d3-shape": "^2.0.0",
     "next": "9.5.3",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -17,6 +21,10 @@
     "use-persisted-state": "^0.3.0"
   },
   "devDependencies": {
+    "@types/d3-interpolate": "^2.0.0",
+    "@types/d3-scale": "^3.0.0",
+    "@types/d3-scale-chromatic": "^2.0.0",
+    "@types/d3-shape": "^2.0.0",
     "@types/node": "^14.11.2",
     "@types/react": "^16.9.49",
     "@types/react-toast-notifications": "^2.4.0",

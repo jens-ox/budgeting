@@ -1,10 +1,7 @@
 import { useRef, useState } from 'react'
-import currency from 'currency.js'
 import Entry from '../types/Entry'
 import { Plus, Minus } from 'react-feather'
-
-const showAmount = (cents: number): string =>
-  currency(cents, { fromCents: true }).format({ symbol: '€' })
+import showAmount from '../helpers/showAmount'
 
 export interface ITable {
   entries?: Array<Entry>
@@ -69,7 +66,7 @@ export default function Table({
     entries.reduce((currentSum, entry) => currentSum + (entry.amount || 0), 0)
 
   return (
-    <table className="print:w-full">
+    <table className="table print:w-full">
       <thead>
         <tr>
           <th>Amount</th>

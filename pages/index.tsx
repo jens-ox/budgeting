@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import { useMemo, useState } from 'react'
 import Table from '../components/Table'
 import useStashed from '../hooks/useStashed'
@@ -7,26 +6,10 @@ import Entry from '../types/Entry'
 import { useToasts } from 'react-toast-notifications'
 import Tabs from '../components/Tabs'
 import TabContainer from '../components/TabContainer'
-
-export enum SpendingCategory {
-  FOOD = 'Lebensmittel',
-  CLOTING = 'Bekleidung und Schuhe',
-  HOME = 'Wohnen und Energie',
-  APPLIANCES = 'Innenausstattung und Haushaltsgeräte',
-  HEALTH = 'Gesundheit',
-  MOBILITY = 'Verkehr',
-  MOBILE = 'Post und Telekommunikation',
-  CULTURE = 'Freizeit, Unterhaltung, Kultur',
-  EDUCATION = 'Bildungswesen',
-  HOTEL = 'Beherberung und Gaststätten',
-  OTHER = 'Andere Waren und Dienstleistungen'
-}
-
-export enum IncomeCategory {
-  WORK = 'Nichtselbstständige Arbeit',
-  CONTRACT = 'Selbstständige Arbeit',
-  MEANS = 'Vermögenseinnahmen'
-}
+import Donut from '../components/Donut'
+import IncomeCategory from '../types/IncomeCategory'
+import SpendingCategory from '../types/SpendingCategory'
+import CumulatedEntry from '../types/CumulatedEntry'
 
 const initialState: Budget = {
   in: [],
@@ -34,6 +17,24 @@ const initialState: Budget = {
 }
 
 const initialHash = JSON.stringify(initialState)
+
+const cumulateEntries = (entries: Array<Entry>): Array<CumulatedEntry> => {
+  const baseArray: Array<CumulatedEntry> = []
+  return entries.reduce((arr, entry) => {
+    const index = arr.findIndex(
+      (cumulated) => cumulated.label === entry.category
+    )
+    if (index === -1) {
+      arr.push({
+        label: entry.category,
+        amount: entry.amount
+      })
+    } else {
+      arr[index].amount += entry.amount
+    }
+    return arr
+  }, baseArray)
+}
 
 export default function Home() {
   const [modalVisible, setModalVisible] = useState(false)
@@ -65,10 +66,6 @@ export default function Home() {
 
   return (
     <div>
-      <Head>
-        <title>Budget</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <nav className="print:hidden">
         <div className="container mx-auto flex justify-between">
           <div className="title">Budget</div>
@@ -84,7 +81,7 @@ export default function Home() {
           </div>
         </div>
       </nav>
-      <main className="container mx-auto pt-8">
+      <main className="container mx-auto py-8">
         <Tabs>
           <TabContainer label="Income">
             <Table
@@ -103,9 +100,27 @@ export default function Home() {
             ></Table>
           </TabContainer>
         </Tabs>
-        <div className="analytics">
-          <h3>Analytics</h3>
-        </div>
+        {budget.in.length > 0 || budget.out.length > 0 ? (
+          <div className="analytics">
+            <h3 className="mb-8">Analytics</h3>
+            {budget.in.length > 0 && (
+              <Donut
+                label="Income Overview"
+                data={cumulateEntries(budget.in)}
+              />
+            )}
+            {budget.out.length > 0 && (
+              <Donut
+                label="Expenses Overview"
+                data={cumulateEntries(budget.out)}
+              ></Donut>
+            )}
+          </div>
+        ) : (
+          <p className="mt-8 text-sm text-gray-600 italic">
+            Add entries to view analytics!
+          </p>
+        )}
       </main>
       {modalVisible && (
         <>
