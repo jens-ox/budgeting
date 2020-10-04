@@ -150,3 +150,20 @@ nav {
     @apply text-xs px-4 py-2 bg-gray-100 flex justify-between;
   }
 }
+
+.donut-circle {
+  @apply stroke-gray;
+  fill: none;
+  stroke-dasharray: 2;
+}
+
+.text-savings-quote {
+  @apply text-lg font-bold;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.text-savings-label {
+  @apply text-xs italic fill-gray;
+  text-anchor: middle;
+}

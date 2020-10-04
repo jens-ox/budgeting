@@ -4,6 +4,7 @@ import { interpolateSpectral } from 'd3-scale-chromatic'
 import { arc, pie, PieArcDatum } from 'd3-shape'
 import showAmount from '../helpers/showAmount'
 import CumulatedEntry from '../types/CumulatedEntry'
+import SpendingCategory from '../types/SpendingCategory'
 
 interface IDonut {
   label?: string
@@ -21,9 +22,11 @@ const pieGenerator = pie<CumulatedEntry>()
   .value((d) => d.amount)
 
 const radius = size / 2
+const innerRadius = radius * 0.67
+const outerRadius = radius - 1
 const arcGenerator = arc<PieArcDatum<CumulatedEntry>>()
-  .innerRadius(radius * 0.67)
-  .outerRadius(radius - 1)
+  .innerRadius(innerRadius)
+  .outerRadius(outerRadius)
 
 const percentFormatter = new Intl.NumberFormat('en-US', {
   style: 'percent',
@@ -42,6 +45,8 @@ const Donut = ({ data, label }: IDonut) => {
 
   const onePercent = data.reduce((acc, entry) => acc + entry.amount, 0) / 100
 
+  const savings = data.find((entry) => entry.label === SpendingCategory.SAVINGS)
+
   return (
     <div className="flex rounded border border-gray-300 p-4 shadow mb-6">
       <div>
@@ -55,14 +60,34 @@ const Donut = ({ data, label }: IDonut) => {
           className="mr-4"
         >
           <g>
-            {arcs.map((arc, i) => (
-              <path
-                key={`arc-${i}`}
-                fill={color(arc.data.label) as string}
-                d={arcGenerator(arc)}
-              ></path>
-            ))}
+            <circle r={innerRadius} className="donut-circle"></circle>
+            <circle r={outerRadius} className="donut-circle"></circle>
           </g>
+          <g>
+            {arcs
+              .filter((arc) => arc.data.label !== SpendingCategory.SAVINGS)
+              .map((arc, i) => (
+                <path
+                  key={`arc-${i}`}
+                  fill={color(arc.data.label) as string}
+                  d={arcGenerator(arc)}
+                ></path>
+              ))}
+          </g>
+          {savings && (
+            <>
+              <text y={-14} className="text-savings-label">
+                savings rate
+              </text>
+              <text
+                className={`text-savings-quote ${
+                  savings.amount > 0 ? 'fill-green' : 'fill-red'
+                }`}
+              >
+                {percentFormatter.format(savings.amount / onePercent / 100)}
+              </text>
+            </>
+          )}
         </svg>
       </div>
       <div className="mt-12">

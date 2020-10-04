@@ -9,7 +9,8 @@ enum SpendingCategory {
   CULTURE = 'Freizeit, Unterhaltung, Kultur',
   EDUCATION = 'Bildungswesen',
   HOTEL = 'Beherberung und Gaststätten',
-  OTHER = 'Andere Waren und Dienstleistungen'
+  OTHER = 'Andere Waren und Dienstleistungen',
+  SAVINGS = 'Gespart'
 }
 
 export default SpendingCategory

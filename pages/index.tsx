@@ -36,6 +36,23 @@ const cumulateEntries = (entries: Array<Entry>): Array<CumulatedEntry> => {
   }, baseArray)
 }
 
+const cumulateExpenses = (budget: Budget): Array<CumulatedEntry> => {
+  // first, default-cumulate
+  const entries = cumulateEntries(budget.out)
+
+  // compute difference to income
+  const sumIncome = budget.in.reduce((acc, val) => acc + val.amount, 0)
+  const sumSpending = budget.out.reduce((acc, val) => acc + val.amount, 0)
+  const difference = sumIncome - sumSpending
+
+  entries.push({
+    amount: difference,
+    label: SpendingCategory.SAVINGS
+  })
+
+  return entries
+}
+
 export default function Home() {
   const [modalVisible, setModalVisible] = useState(false)
   const [budget, setBudget] = useStashed(initialState)
@@ -112,7 +129,7 @@ export default function Home() {
             {budget.out.length > 0 && (
               <Donut
                 label="Expenses Overview"
-                data={cumulateEntries(budget.out)}
+                data={cumulateExpenses(budget)}
               ></Donut>
             )}
           </div>
