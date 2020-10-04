@@ -1,0 +1,77 @@
+
+body {
+  @apply leading-normal text-gray-800;
+}
+
+
+table {
+  @apply my-4 text-sm table-auto;
+
+  td {
+    @apply p-0 m-0
+  }
+  
+  th {
+    @apply px-2
+  }
+
+  thead {
+    tr {
+      @apply text-left;
+    }
+  }
+  tfoot {
+    tr {
+      @apply bg-none
+    }
+    th,td {
+      @apply pt-1;
+    }
+  }
+  tbody {
+    td {
+      @apply border border-gray-300
+    }
+  }
+}
+
+button,.button {
+  @apply px-3 py-1 rounded text-sm border border-gray-300 shadow font-medium;
+  &:hover {
+    @apply bg-gray-100;
+  }
+  &.table-icon {
+    @apply rounded-none shadow-none border-none
+  }
+}
+
+h1 {
+  @apply text-4xl font-semibold
+}
+
+input[type=number] {
+  appearance: textfield;
+}
+
+input {
+  @apply py-1 px-2 bg-transparent
+}
+
+select {
+  @apply block appearance-none py-1 pl-2 pr-8 rounded leading-tight bg-transparent;
+  width: 20rem;
+}
+
+h3 {
+  @apply text-xl font-semibold mb-2 mt-8;
+}
+
+.row-entry {
+  td:not(.td-action) {
+    @apply px-2
+  }
+}
+
+.row-add {
+  @apply bg-gray-100
+}

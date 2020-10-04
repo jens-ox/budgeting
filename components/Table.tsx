@@ -4,7 +4,7 @@ import Entry from '../types/Entry'
 import { Plus, Minus } from 'react-feather'
 
 const showAmount = (cents: number): string =>
-  currency(cents, { fromCents: true }).toString()
+  currency(cents, { fromCents: true }).format({ symbol: '€' })
 
 export interface ITable {
   entries?: Array<Entry>
@@ -21,7 +21,15 @@ export default function Table({
 }: ITable): JSX.Element {
   const inputRef = useRef(null)
 
+  // new entry
+  const [amount, setAmount] = useState<number>()
+  const [name, setName] = useState('')
+  const [category, setCategory] = useState(defaultCategory)
+
   const addEntry = () => {
+    // abort if everything is empty
+    if (!amount && name === '') return
+
     const newEntries = [
       ...entries,
       {
@@ -33,7 +41,7 @@ export default function Table({
     onChange(newEntries)
 
     // re-set
-    setAmount(0)
+    setAmount(undefined)
     setName('')
     setCategory(defaultCategory)
 
@@ -46,53 +54,66 @@ export default function Table({
     onChange(newEntries)
   }
 
-  // new entry
-  const [amount, setAmount] = useState<number>(0)
-  const [name, setName] = useState('')
-  const [category, setCategory] = useState(defaultCategory)
+  const handleSelect = (e) => {
+    if (e.key !== 'Enter') return
+    e.preventDefault()
+    addEntry()
+  }
 
   const handleEnter = (e) => {
     if (e.key !== 'Enter') return
     addEntry()
   }
 
+  const getSum = () =>
+    entries.reduce((currentSum, entry) => currentSum + (entry.amount || 0), 0)
+
   return (
     <table>
       <thead>
         <tr>
-          <th>Betrag</th>
+          <th>Amount</th>
           <th>Name</th>
-          <th>Kategorie</th>
-          <th className="print:hidden"></th>
+          <th>Category</th>
+          <th className="print:hidden w-0"></th>
         </tr>
       </thead>
       <tbody>
         {entries.map((entry, i) => (
-          <tr key={`entry-${i}`}>
+          <tr key={`entry-${i}`} className="row-entry">
             <td>{showAmount(entry.amount)}</td>
             <td>{entry.name}</td>
             <td>{entry.category}</td>
-            <td>
-              <button onClick={() => removeEntry(i)}>
-                <Minus />
+            <td className="td-action">
+              <button
+                onClick={() => removeEntry(i)}
+                className="table-icon inline-block w-full h-full text-center"
+              >
+                <Minus className="inline" />
               </button>
             </td>
           </tr>
         ))}
-        <tr onKeyUp={handleEnter} className="print:hidden">
+        <tr className="print:hidden row-add">
           <td>
             <input
               type="number"
               value={amount}
+              placeholder="cents"
               ref={inputRef}
-              onChange={(e) => setAmount(parseInt(e.target.value || '0'))}
+              onChange={(e) =>
+                setAmount(e.target.value ? parseInt(e.target.value) : undefined)
+              }
+              onKeyUp={handleEnter}
               onFocus={(e) => e.target.select()}
             />
           </td>
           <td>
             <input
               type="text"
+              placeholder="Kebab"
               value={name}
+              onKeyUp={handleEnter}
               onChange={(e) => setName(e.target.value)}
             />
           </td>
@@ -103,6 +124,7 @@ export default function Table({
                 id="category"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
+                onKeyPress={handleSelect}
               >
                 {Object.values(categories).map((c) => (
                   <option key={`category-${c}`} value={c as string}>
@@ -122,12 +144,21 @@ export default function Table({
             </div>
           </td>
           <td>
-            <button onClick={addEntry} type="button">
-              <Plus />
+            <button
+              onClick={addEntry}
+              type="button"
+              className="table-icon inline-block w-full h-full text-center"
+            >
+              <Plus className="inline" />
             </button>
           </td>
         </tr>
       </tbody>
+      <tfoot>
+        <tr>
+          <th className="text-left">{showAmount(getSum())}</th>
+        </tr>
+      </tfoot>
     </table>
   )
 }
