@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import Table from '../components/Table'
 import useStashed from '../hooks/useStashed'
 import Budget from '../types/Budget'
@@ -34,31 +34,11 @@ const initialState: Budget = {
 const initialHash = JSON.stringify(initialState)
 
 export default function Home() {
-  const [stashed, setStashed] = useStashed(initialState)
-  const [budget, setBudget] = useState<Budget>(initialState)
+  const [budget, setBudget] = useStashed(initialState)
   const { addToast } = useToasts()
 
   // yes, this is efficient enough, one day this can be upgraded to MurmurHash3 or sth
   const budgetHash = useMemo(() => JSON.stringify(budget), [budget])
-  const stashHash = useMemo(() => JSON.stringify(stashed), [stashed])
-
-  const stashDiffers = stashHash !== budgetHash
-  const stashNotInitial = stashHash !== initialHash
-  const localNotInitial = budgetHash !== initialHash
-
-  const loadStashed = () => {
-    setBudget(stashed)
-    addToast(<span>loaded stashed entries</span>, {
-      appearance: 'success'
-    })
-  }
-
-  const updateStashed = () => {
-    setStashed(budget)
-    addToast(<span>updated stashed entries</span>, {
-      appearance: 'success'
-    })
-  }
 
   // resets both state and localStorage
   const reset = () => {
@@ -86,21 +66,11 @@ export default function Home() {
         <title>Budget</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <nav>
+      <nav className="print:hidden">
         <div className="container mx-auto flex justify-between">
           <div className="title">Budget</div>
           <div className="actions">
-            {stashNotInitial && (
-              <button onClick={loadStashed}>Load local</button>
-            )}
-            {stashDiffers ? (
-              <button onClick={updateStashed} className="button-green">
-                Save local
-              </button>
-            ) : (
-              <button className="disabled">Up to date ✓</button>
-            )}
-            {localNotInitial && (
+            {budgetHash !== initialHash && (
               <button className="button-red" onClick={reset}>
                 Reset
               </button>

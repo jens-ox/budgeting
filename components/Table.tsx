@@ -69,7 +69,7 @@ export default function Table({
     entries.reduce((currentSum, entry) => currentSum + (entry.amount || 0), 0)
 
   return (
-    <table>
+    <table className="print:w-full">
       <thead>
         <tr>
           <th>Amount</th>
@@ -84,7 +84,7 @@ export default function Table({
             <td>{showAmount(entry.amount)}</td>
             <td>{entry.name}</td>
             <td>{entry.category}</td>
-            <td className="td-action">
+            <td className="td-action print:hidden">
               <button
                 onClick={() => removeEntry(i)}
                 className="table-icon inline-block w-full h-full text-center"
