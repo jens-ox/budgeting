@@ -6,7 +6,7 @@ const Tabs = ({ children }) => {
 
   return (
     <div className="tabs">
-      <ol className="tab-list">
+      <ol className="tab-list print:opacity-0">
         {children.map((child) => {
           const { label } = child.props
 
@@ -21,12 +21,24 @@ const Tabs = ({ children }) => {
         })}
         <li className="filler" />
       </ol>
-      <div className="tab-content">
-        {children.map((child) => {
-          if (child.props.label !== activeTab) return undefined
-          return child.props.children
-        })}
-      </div>
+
+      {children.map((child, i) => {
+        return (
+          <div
+            key={`child-${i}`}
+            className={`tab-content print:mb-4 print:block ${
+              child.props.label !== activeTab && 'hidden'
+            }`}
+          >
+            <>
+              <div className="hidden print:block text-lg">
+                {child.props.label}
+              </div>
+              {child.props.children}
+            </>
+          </div>
+        )
+      })}
     </div>
   )
 }

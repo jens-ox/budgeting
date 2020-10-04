@@ -2,11 +2,12 @@ import { useRef, useState } from 'react'
 import Entry from '../types/Entry'
 import { Plus, Minus } from 'react-feather'
 import showAmount from '../helpers/showAmount'
+import Category from '../types/Category'
 
 export interface ITable {
   entries?: Array<Entry>
   categories: Record<string, string>
-  defaultCategory: string
+  defaultCategory: Category
   onChange: (entries: Array<Entry>) => void
 }
 
@@ -21,7 +22,7 @@ export default function Table({
   // new entry
   const [amount, setAmount] = useState<number | null>(null)
   const [name, setName] = useState('')
-  const [category, setCategory] = useState(defaultCategory)
+  const [category, setCategory] = useState<Category>(defaultCategory)
 
   const addEntry = () => {
     // abort if everything is empty
@@ -120,7 +121,7 @@ export default function Table({
                 name="category"
                 id="category"
                 value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                onChange={(e) => setCategory(e.target.value as Category)}
                 onKeyPress={handleSelect}
               >
                 {Object.values(categories).map((c) => (

@@ -10,7 +10,7 @@ interface IDonut {
   data: Array<CumulatedEntry>
 }
 
-const size = 300
+const size = 200
 
 const sortFunction = (a: CumulatedEntry, b: CumulatedEntry) =>
   b.amount - a.amount
