@@ -17,7 +17,7 @@ const sortFunction = (a: CumulatedEntry, b: CumulatedEntry) =>
   b.amount - a.amount
 
 const pieGenerator = pie<CumulatedEntry>()
-  .padAngle(0.005)
+  .padAngle(0.01)
   .sort(sortFunction)
   .value((d) => d.amount)
 
@@ -27,6 +27,7 @@ const outerRadius = radius - 1
 const arcGenerator = arc<PieArcDatum<CumulatedEntry>>()
   .innerRadius(innerRadius)
   .outerRadius(outerRadius)
+  .cornerRadius(5)
 
 const percentFormatter = new Intl.NumberFormat('en-US', {
   style: 'percent',
@@ -48,8 +49,8 @@ const Donut = ({ data, label }: IDonut) => {
   const savings = data.find((entry) => entry.label === SpendingCategory.SAVINGS)
 
   return (
-    <div className="flex rounded border border-gray-300 p-4 shadow mb-6">
-      <div>
+    <div className="flex flex-col lg:flex-row rounded border border-gray-300 p-4 shadow mb-6">
+      <div className="inline-block mx-auto lg:block lg:mx-0">
         {label && (
           <div className="text-lg mb-3 w-full text-center">{label}</div>
         )}
