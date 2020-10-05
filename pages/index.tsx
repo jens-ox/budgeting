@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Table from '../components/Table'
 import useStashed from '../hooks/useStashed'
 import Budget from '../types/Budget'
@@ -57,13 +57,27 @@ const cumulateExpenses = (budget: Budget): Array<CumulatedEntry> => {
 
 export default function Home() {
   const [modalVisible, setModalVisible] = useState(false)
-  const [budget, setBudget] = process.browser
-    ? useStashed(initialState)
-    : [initialState, () => null]
-  const [firstStart, setFirstStart] = process.browser
-    ? useFirstStart()
-    : [true, () => null]
+  const [budget, setBudget] = useState<Budget>(initialState)
+  const [firstStart, setFirstStart] = useState<boolean>(true)
   const { addToast } = useToasts()
+
+  // initial loading from localStorage
+  useEffect(() => {
+    const localBudget = localStorage.getItem('budget')
+    const localFirstStart = localStorage.getItem('firstStart')
+    if (localBudget) setBudget(JSON.parse(localBudget))
+    if (localFirstStart) setFirstStart(JSON.parse(localFirstStart))
+  }, [])
+
+  // updating budget to local storage
+  useEffect(() => {
+    localStorage.setItem('budget', JSON.stringify(budget))
+  }, [budget])
+
+  // updating first start to local storage
+  useEffect(() => {
+    localStorage.setItem('firstStart', JSON.stringify(firstStart))
+  }, [firstStart])
 
   // yes, this is efficient enough, one day this can be upgraded to MurmurHash3 or sth
   const budgetHash = useMemo(() => JSON.stringify(budget), [budget])
