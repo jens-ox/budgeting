@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
 import Table from '../components/Table'
-import useStashed from '../hooks/useStashed'
 import Budget from '../types/Budget'
 import Entry from '../types/Entry'
 import { useToasts } from 'react-toast-notifications'
@@ -11,7 +10,6 @@ import Donut from '../components/Donut'
 import IncomeCategory from '../types/IncomeCategory'
 import SpendingCategory from '../types/SpendingCategory'
 import CumulatedEntry from '../types/CumulatedEntry'
-import useFirstStart from '../hooks/useFirstStart'
 
 const initialState: Budget = {
   in: [],
